@@ -14,8 +14,7 @@ export default class OpenRelatedUrlPlugin extends Plugin {
 
   async onload() {
     await this.loadSettings();
-    const { urlFrontMatterNamePrefix: urlFrontMatterNameSuffix } =
-      this.settings;
+    const { urlFrontMatterNameSuffix } = this.settings;
 
     // This adds an editor command that can perform some operation on the current editor instance
     this.addCommand({
