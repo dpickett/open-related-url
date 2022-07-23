@@ -1,7 +1,7 @@
 {
   "id": "open-related-url",
   "name": "Open Related URL",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "minAppVersion": "0.12.0",
   "description": "Opens URLs found in a note's YAML frontmatter",
   "author": "Dan Pickett",
