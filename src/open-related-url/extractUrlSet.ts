@@ -1,14 +1,17 @@
 import { FrontMatterCache } from "obsidian";
 import { UrlOption } from "./UrlOption";
 
-const requiredSuffix = "Url";
-export const extractUrlSet = (frontMatter: FrontMatterCache): UrlOption[] => {
+const defaultSuffix = "Url";
+export const extractUrlSet = (
+  frontMatter: FrontMatterCache,
+  { urlFrontMatterNameSuffix = defaultSuffix } = {}
+): UrlOption[] => {
   return Object.keys(frontMatter).reduce((urlSet, key) => {
-    if (key.endsWith(requiredSuffix)) {
+    if (key.endsWith(urlFrontMatterNameSuffix)) {
       return [
         ...urlSet,
         {
-          name: key.replace(requiredSuffix, ""),
+          name: key.replace(urlFrontMatterNameSuffix, ""),
           url: frontMatter[key],
         },
       ];

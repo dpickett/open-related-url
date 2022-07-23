@@ -14,6 +14,8 @@ export default class OpenRelatedUrlPlugin extends Plugin {
 
   async onload() {
     await this.loadSettings();
+    const { urlFrontMatterNamePrefix: urlFrontMatterNameSuffix } =
+      this.settings;
 
     // This adds an editor command that can perform some operation on the current editor instance
     this.addCommand({
@@ -25,7 +27,9 @@ export default class OpenRelatedUrlPlugin extends Plugin {
           view.file
         );
         if (frontMatter) {
-          const urlSet = extractUrlSet(frontMatter);
+          const urlSet = extractUrlSet(frontMatter, {
+            urlFrontMatterNameSuffix: urlFrontMatterNameSuffix,
+          });
           new UrlModal(this.app, urlSet).open();
         }
       },
@@ -43,7 +47,9 @@ export default class OpenRelatedUrlPlugin extends Plugin {
 
           let urlItem;
           if (frontMatter) {
-            const urlSet = extractUrlSet(frontMatter);
+            const urlSet = extractUrlSet(frontMatter, {
+              urlFrontMatterNameSuffix: urlFrontMatterNameSuffix,
+            });
             urlItem = urlSet.find((url) => url.name === name);
           }
 
