@@ -1,6 +1,6 @@
 {
   "id": "open-related-url",
-  "name": "Open Related URL",
+  "name": "Open Related Url",
   "version": "0.0.6",
   "minAppVersion": "0.12.0",
   "description": "Opens URLs found in a note's YAML frontmatter",
