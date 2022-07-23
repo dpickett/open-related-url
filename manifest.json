@@ -1,10 +1,12 @@
 {
   "id": "open-related-url",
   "name": "Open Related URL",
-  "version": "1.0.1",
+  "version": "0.0.1",
   "minAppVersion": "0.12.0",
   "description": "Opens URLs found in a note's YAML frontmatter",
   "author": "Dan Pickett",
   "authorUrl": "https://danpickett.com",
-  "isDesktopOnly": false
+  "isDesktopOnly": false,
+  "repo": "https://github.com/dpickett/open-related-url",
+  "branch": "master"
 }
