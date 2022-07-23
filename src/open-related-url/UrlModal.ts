@@ -1,4 +1,5 @@
 import { App, FuzzySuggestModal } from "obsidian";
+import openUrl from "src/openUrl";
 import { UrlOption } from "./UrlOption";
 
 export class UrlModal extends FuzzySuggestModal<UrlOption> {
@@ -16,6 +17,6 @@ export class UrlModal extends FuzzySuggestModal<UrlOption> {
     return item.name;
   }
   onChooseItem(item: UrlOption, evt: MouseEvent | KeyboardEvent): void {
-    window.open(item.url);
+    openUrl(item.url);
   }
 }
