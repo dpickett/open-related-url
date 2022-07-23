@@ -1,7 +1,7 @@
 {
-  "name": "obsidian-sample-plugin",
+  "name": "obsidian-open-related-url",
   "version": "1.0.1",
-  "description": "This is a sample plugin for Obsidian (https://obsidian.md)",
+  "description": "Open a URL related to a note in obsidian",
   "main": "main.js",
   "scripts": {
     "dev": "node esbuild.config.mjs",
