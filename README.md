@@ -1,6 +1,6 @@
 # Open Related URL - An Obsidian Plugin
 
-An obsidian plugin. On any given note, you can use this to open urls that are mentioned in the note's YAML front matter.
+An obsidian plugin. On any given note, you can use this to open urls that are mentioned in the note's [YAML front matter](https://help.obsidian.md/Advanced+topics/YAML+front+matter).
 
 ## Use Cases
 
