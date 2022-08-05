@@ -10,7 +10,7 @@ For me, the two most useful things to correlate are tasks and files. If you supp
 
 ## Overview Video
 
-<iframe width="770" height="433" src="https://www.youtube.com/embed/S-1r0Z7nPgo" title="Open a Related URL in Obsidian with a New Plugin" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+[![Overview Video](https://img.youtube.com/vi/S-1r0Z7nPgo/0.jpg)](https://www.youtube.com/watch?v=S-1r0Z7nPgo)
 
 ## Open Related Url Command
 
