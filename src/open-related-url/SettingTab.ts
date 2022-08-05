@@ -37,7 +37,7 @@ export default class SettingTab extends PluginSettingTab {
       )
       .addText((text) =>
         text
-          .setPlaceholder("separate by commas")
+          .setPlaceholder("(separated by commas)")
           .setValue(this.plugin.settings.quickNavigateNames.join(", "))
           .onChange(async (value) => {
             this.plugin.settings.quickNavigateNames = value
