@@ -1,6 +1,6 @@
 {
   "name": "obsidian-open-related-url",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Open a URL related to a note in obsidian",
   "main": "main.js",
   "scripts": {
