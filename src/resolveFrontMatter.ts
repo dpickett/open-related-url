@@ -1,8 +1,8 @@
 import { FrontMatterCache, MetadataCache, TFile } from "obsidian";
 
-export const resolveFrontMatter = async (
+export const resolveFrontMatter = (
   metaDataCache: MetadataCache,
   file: TFile
-): Promise<FrontMatterCache | undefined> => {
+): FrontMatterCache | undefined => {
   return metaDataCache.getFileCache(file)?.frontmatter;
 };

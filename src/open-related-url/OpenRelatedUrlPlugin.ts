@@ -1,4 +1,12 @@
-import { Plugin, MarkdownView, Editor, Notice, TFile } from "obsidian";
+import {
+  Plugin,
+  MarkdownView,
+  Editor,
+  Notice,
+  TFile,
+  Menu,
+  TAbstractFile,
+} from "obsidian";
 import { resolveFrontMatter } from "src/resolveFrontMatter";
 import { extractUrlSet } from "src/open-related-url/extractUrlSet";
 import { UrlModal } from "./UrlModal";
@@ -8,20 +16,38 @@ import {
 } from "./PluginSettings";
 import SettingTab from "./SettingTab";
 import openUrl from "src/openUrl";
+import { LinkMenuEvent } from "./LinkMenuEvent";
+import { FileOpenEvent } from "./FileOpenEvent";
 
 export default class OpenRelatedUrlPlugin extends Plugin {
   settings: OpenRelatedUrlPluginSettings;
+  linkMenuEvent: LinkMenuEvent;
+  fileOpenEvent: FileOpenEvent;
 
   async onload() {
     await this.loadSettings();
-    this.registerEvent(
-      this.app.workspace.on("file-open", (file: TFile) => {
-        this.registerCommands(file);
-      })
-    );
+
+    if (!this.linkMenuEvent) {
+      this.linkMenuEvent = new LinkMenuEvent(this);
+      this.linkMenuEvent.registerEvent();
+    }
+
+    if (!this.fileOpenEvent) {
+      this.fileOpenEvent = new FileOpenEvent(this);
+      this.fileOpenEvent.registerEvent();
+    }
+
+    this.addSettingTab(new SettingTab(this.app, this));
   }
 
-  onunload() {}
+  onunload() {
+    if (this.linkMenuEvent) {
+      this.linkMenuEvent.unregisterEvent();
+    }
+    if (this.fileOpenEvent) {
+      this.fileOpenEvent.unregisterEvent();
+    }
+  }
 
   async loadSettings() {
     this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
@@ -29,50 +55,5 @@ export default class OpenRelatedUrlPlugin extends Plugin {
 
   async saveSettings() {
     await this.saveData(this.settings);
-  }
-
-  private async registerCommands(file: TFile) {
-    const { urlFrontMatterNameSuffix } = this.settings;
-    // This adds an editor command that can perform some operation on the current editor instance
-    this.addCommand({
-      id: "open-related-url",
-      name: "Open Related URL",
-      callback: async () => {
-        const frontMatter = await resolveFrontMatter(app.metadataCache, file);
-        if (frontMatter) {
-          const urlSet = extractUrlSet(frontMatter, {
-            urlFrontMatterNameSuffix: urlFrontMatterNameSuffix,
-          });
-          new UrlModal(this.app, urlSet).open();
-        }
-      },
-    });
-
-    this.settings.quickNavigateNames.forEach((name) => {
-      this.addCommand({
-        id: `open-quick-url-${name}`,
-        name: `Quick Nav - ${name}`,
-        callback: async () => {
-          const frontMatter = await resolveFrontMatter(app.metadataCache, file);
-
-          let urlItem;
-          if (frontMatter) {
-            const urlSet = extractUrlSet(frontMatter, {
-              urlFrontMatterNameSuffix: urlFrontMatterNameSuffix,
-            });
-            console.log(urlSet);
-            urlItem = urlSet.find((url) => url.name === name);
-          }
-
-          if (urlItem) {
-            openUrl(urlItem.url);
-          } else {
-            new Notice(`URL for ${name} not found in frontmatter`);
-          }
-        },
-      });
-    });
-
-    this.addSettingTab(new SettingTab(this.app, this));
   }
 }
