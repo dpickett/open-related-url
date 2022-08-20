@@ -1,4 +1,12 @@
-import { Plugin, MarkdownView, Editor, Notice, TFile } from "obsidian";
+import {
+  Plugin,
+  MarkdownView,
+  Editor,
+  Notice,
+  TFile,
+  Menu,
+  TAbstractFile,
+} from "obsidian";
 import { resolveFrontMatter } from "src/resolveFrontMatter";
 import { extractUrlSet } from "src/open-related-url/extractUrlSet";
 import { UrlModal } from "./UrlModal";
@@ -8,9 +16,11 @@ import {
 } from "./PluginSettings";
 import SettingTab from "./SettingTab";
 import openUrl from "src/openUrl";
+import { LinkMenuEvent } from "./LinkMenuEvent";
 
 export default class OpenRelatedUrlPlugin extends Plugin {
   settings: OpenRelatedUrlPluginSettings;
+  linkMenuEvent: LinkMenuEvent;
 
   async onload() {
     await this.loadSettings();
@@ -19,9 +29,17 @@ export default class OpenRelatedUrlPlugin extends Plugin {
         this.registerCommands(file);
       })
     );
+    if (!this.linkMenuEvent) {
+      this.linkMenuEvent = new LinkMenuEvent(this);
+      this.linkMenuEvent.registerEvent();
+    }
   }
 
-  onunload() {}
+  onunload() {
+    if (this.linkMenuEvent) {
+      this.linkMenuEvent.unregisterEvent();
+    }
+  }
 
   async loadSettings() {
     this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
@@ -37,8 +55,8 @@ export default class OpenRelatedUrlPlugin extends Plugin {
     this.addCommand({
       id: "open-related-url",
       name: "Open Related URL",
-      callback: async () => {
-        const frontMatter = await resolveFrontMatter(app.metadataCache, file);
+      callback: () => {
+        const frontMatter = resolveFrontMatter(app.metadataCache, file);
         if (frontMatter) {
           const urlSet = extractUrlSet(frontMatter, {
             urlFrontMatterNameSuffix: urlFrontMatterNameSuffix,
@@ -52,15 +70,14 @@ export default class OpenRelatedUrlPlugin extends Plugin {
       this.addCommand({
         id: `open-quick-url-${name}`,
         name: `Quick Nav - ${name}`,
-        callback: async () => {
-          const frontMatter = await resolveFrontMatter(app.metadataCache, file);
+        callback: () => {
+          const frontMatter = resolveFrontMatter(app.metadataCache, file);
 
           let urlItem;
           if (frontMatter) {
             const urlSet = extractUrlSet(frontMatter, {
               urlFrontMatterNameSuffix: urlFrontMatterNameSuffix,
             });
-            console.log(urlSet);
             urlItem = urlSet.find((url) => url.name === name);
           }
 
