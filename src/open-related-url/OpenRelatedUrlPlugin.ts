@@ -1,4 +1,4 @@
-import { Plugin, MarkdownView, Editor, Notice } from "obsidian";
+import { Plugin, MarkdownView, Editor, Notice, TFile } from "obsidian";
 import { resolveFrontMatter } from "src/resolveFrontMatter";
 import { extractUrlSet } from "src/open-related-url/extractUrlSet";
 import { UrlModal } from "./UrlModal";
@@ -14,17 +14,31 @@ export default class OpenRelatedUrlPlugin extends Plugin {
 
   async onload() {
     await this.loadSettings();
-    const { urlFrontMatterNameSuffix } = this.settings;
+    this.registerEvent(
+      this.app.workspace.on("file-open", (file: TFile) => {
+        this.registerCommands(file);
+      })
+    );
+  }
 
+  onunload() {}
+
+  async loadSettings() {
+    this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+  }
+
+  async saveSettings() {
+    await this.saveData(this.settings);
+  }
+
+  private async registerCommands(file: TFile) {
+    const { urlFrontMatterNameSuffix } = this.settings;
     // This adds an editor command that can perform some operation on the current editor instance
     this.addCommand({
       id: "open-related-url",
       name: "Open Related URL",
-      editorCallback: async (editor: Editor, view: MarkdownView) => {
-        const frontMatter = await resolveFrontMatter(
-          app.metadataCache,
-          view.file
-        );
+      callback: async () => {
+        const frontMatter = await resolveFrontMatter(app.metadataCache, file);
         if (frontMatter) {
           const urlSet = extractUrlSet(frontMatter, {
             urlFrontMatterNameSuffix: urlFrontMatterNameSuffix,
@@ -38,17 +52,15 @@ export default class OpenRelatedUrlPlugin extends Plugin {
       this.addCommand({
         id: `open-quick-url-${name}`,
         name: `Quick Nav - ${name}`,
-        editorCallback: async (editor: Editor, view: MarkdownView) => {
-          const frontMatter = await resolveFrontMatter(
-            app.metadataCache,
-            view.file
-          );
+        callback: async () => {
+          const frontMatter = await resolveFrontMatter(app.metadataCache, file);
 
           let urlItem;
           if (frontMatter) {
             const urlSet = extractUrlSet(frontMatter, {
               urlFrontMatterNameSuffix: urlFrontMatterNameSuffix,
             });
+            console.log(urlSet);
             urlItem = urlSet.find((url) => url.name === name);
           }
 
@@ -62,15 +74,5 @@ export default class OpenRelatedUrlPlugin extends Plugin {
     });
 
     this.addSettingTab(new SettingTab(this.app, this));
-  }
-
-  onunload() {}
-
-  async loadSettings() {
-    this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
-  }
-
-  async saveSettings() {
-    await this.saveData(this.settings);
   }
 }
