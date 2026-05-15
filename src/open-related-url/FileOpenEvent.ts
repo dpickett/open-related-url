@@ -20,7 +20,7 @@ export class FileOpenEvent extends PluginEvent {
       id: "open-related-url",
       name: "Open Related URL",
       callback: () => {
-        const frontMatter = resolveFrontMatter(app.metadataCache, file);
+        const frontMatter = resolveFrontMatter(this.plugin.app.metadataCache, file);
         if (frontMatter) {
           const urlSet = extractUrlSet(frontMatter, {
             urlFrontMatterNameSuffix: urlFrontMatterNameSuffix,
@@ -35,7 +35,10 @@ export class FileOpenEvent extends PluginEvent {
         id: `open-quick-url-${name}`,
         name: `Quick Nav - ${name}`,
         callback: () => {
-          const frontMatter = resolveFrontMatter(app.metadataCache, file);
+          const frontMatter = resolveFrontMatter(
+            this.plugin.app.metadataCache,
+            file
+          );
 
           let urlItem;
           if (frontMatter) {
