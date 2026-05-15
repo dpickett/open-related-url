@@ -2,7 +2,7 @@ import { EventRef } from "obsidian";
 import OpenRelatedUrlPlugin from "src/main";
 
 export abstract class PluginEvent {
-  eventRef: EventRef | null;
+  eventRef: EventRef | null = null;
   constructor(protected plugin: OpenRelatedUrlPlugin) {}
   abstract buildEventHandler(): EventRef;
 

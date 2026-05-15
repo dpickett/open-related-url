@@ -2,14 +2,15 @@ import { EventRef, Notice, TFile } from "obsidian";
 import openUrl from "src/openUrl";
 import { resolveFrontMatter } from "src/resolveFrontMatter";
 import { extractUrlSet } from "./extractUrlSet";
-import OpenRelatedUrlPlugin from "./OpenRelatedUrlPlugin";
 import { PluginEvent } from "./PluginEvent";
 import { UrlModal } from "./UrlModal";
 
 export class FileOpenEvent extends PluginEvent {
   buildEventHandler(): EventRef {
-    return this.plugin.app.workspace.on("file-open", (file: TFile) => {
-      this.registerCommands(file);
+    return this.plugin.app.workspace.on("file-open", (file) => {
+      if (file instanceof TFile) {
+        this.registerCommands(file);
+      }
     });
   }
 

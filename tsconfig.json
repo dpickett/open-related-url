@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
+    "rootDir": ".",
     "inlineSourceMap": true,
     "inlineSources": true,
     "jsx": "react",
@@ -9,6 +10,7 @@
     "allowJs": true,
     "noImplicitAny": true,
     "moduleResolution": "node",
+    "ignoreDeprecations": "6.0",
     "importHelpers": true,
     "isolatedModules": true,
 	"strictNullChecks": true,
@@ -17,7 +19,8 @@
       "ES5",
       "ES6",
       "ES7"
-    ]
+    ],
+    "types": ["node", "jest"]
   },
   "include": [
     "**/*.ts"

@@ -1,16 +1,14 @@
-import type { InitialOptionsTsJest } from "ts-jest/dist/types";
+import type { Config } from "jest";
 
-const config: InitialOptionsTsJest = {
+const config: Config = {
   modulePathIgnorePatterns: ["dist"],
   preset: "ts-jest",
   testEnvironment: "node",
   verbose: true,
   moduleDirectories: ["src", "node_modules"],
   testPathIgnorePatterns: ["/node_modules/", "<rootDir>/lib/"],
-  globals: {
-    "ts-jest": {
-      useESM: true,
-    },
+  transform: {
+    "^.+\\.tsx?$": ["ts-jest", { useESM: true }],
   },
 };
 

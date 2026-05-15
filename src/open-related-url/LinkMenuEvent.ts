@@ -1,19 +1,10 @@
-import {
-  MenuItem,
-  MetadataCache,
-  TFile,
-  Menu,
-  TAbstractFile,
-  EventRef,
-} from "obsidian";
+import { MetadataCache, TFile, Menu, TAbstractFile } from "obsidian";
 import openUrl from "src/openUrl";
 import { resolveFrontMatter } from "src/resolveFrontMatter";
 import { extractUrlSet } from "./extractUrlSet";
-import OpenRelatedUrlPlugin from "./OpenRelatedUrlPlugin";
 import { PluginEvent } from "./PluginEvent";
 
 export class LinkMenuEvent extends PluginEvent {
-  eventRef: EventRef | null;
 
   buildEventHandler() {
     return this.plugin.app.workspace.on(
