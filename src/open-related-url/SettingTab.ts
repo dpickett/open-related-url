@@ -13,7 +13,7 @@ export default class SettingTab extends PluginSettingTab {
 
     containerEl.empty();
 
-    containerEl.createEl("h2", { text: "Open related URL settings" });
+    ;
 
     new Setting(containerEl)
       .setName("Frontmatter Suffix")

@@ -6,7 +6,7 @@ export const extractUrlSet = (
   frontMatter: FrontMatterCache,
   { urlFrontMatterNameSuffix = defaultSuffix } = {}
 ): UrlOption[] => {
-  return Object.keys(frontMatter).reduce((urlSet, key) => {
+  return Object.keys(frontMatter).reduce<UrlOption[]>((urlSet, key) => {
     if (key.endsWith(urlFrontMatterNameSuffix)) {
       return [
         ...urlSet,

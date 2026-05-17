@@ -1,28 +1,16 @@
-import {
-  Plugin,
-  MarkdownView,
-  Editor,
-  Notice,
-  TFile,
-  Menu,
-  TAbstractFile,
-} from "obsidian";
-import { resolveFrontMatter } from "src/resolveFrontMatter";
-import { extractUrlSet } from "src/open-related-url/extractUrlSet";
-import { UrlModal } from "./UrlModal";
+import { Plugin } from "obsidian";
 import {
   DEFAULT_SETTINGS,
   OpenRelatedUrlPluginSettings,
 } from "./PluginSettings";
 import SettingTab from "./SettingTab";
-import openUrl from "src/openUrl";
 import { LinkMenuEvent } from "./LinkMenuEvent";
 import { FileOpenEvent } from "./FileOpenEvent";
 
 export default class OpenRelatedUrlPlugin extends Plugin {
-  settings: OpenRelatedUrlPluginSettings;
-  linkMenuEvent: LinkMenuEvent;
-  fileOpenEvent: FileOpenEvent;
+  settings!: OpenRelatedUrlPluginSettings;
+  linkMenuEvent!: LinkMenuEvent;
+  fileOpenEvent!: FileOpenEvent;
 
   async onload() {
     await this.loadSettings();
